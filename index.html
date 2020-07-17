@@ -1,0 +1,726 @@
+<!doctype html>
+<head>
+  <title>Dark Mode</title>
+  <meta name="description" content="News collected from several sources from all over the world, in one place.">
+  <meta name="keywords" content="news, headlines, trending, aggregator, trookio, worldwide">
+  <meta property="og:title" content="News collected from all several sources from all over the world, in one place.">
+  <meta property="og:url" content="https://trookio.github.io/">
+  <meta property="og:image" content="https://i.ibb.co/dcW1bDL/logo-dark.png">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="web-app-capable" content="yes">
+  
+  <link rel="apple-touch-icon" href="apple-icon.jpg">
+  <link rel="shortcut icon" type="image/jpg" href="logo.jpg">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#363636">
+  
+  <script src="jquery-part1.js"></script>
+  <script src="jquery-part2.js"></script>
+  <link rel="stylesheet" text="text/css" href="animation.css">
+  <link rel="stylesheet" href="api-style.css">
+  <link href="fonts.css" rel="stylesheet">
+  
+<style>
+ /*Device size declaration*/
+ #desktop-version {display:block;}
+ #tablet-version {display:none;}
+ #mobile-version {display:none;}
+
+/*top nav buttons*/
+ .logo {float:left;margin:0.0%;height:2vw;}
+ .info {float:right;margin:0.1%;height:3vw;margin-top:0.5%;}
+ .mode {float:right;margin:0.2%;height:3.4vw; margin-top:0.3%;}
+ .activism {float:right;margin:0.3%;height:3.3vw;}
+ .news {float:right;margin:-0.3vw;height:4.25vw;}
+ 
+  
+  
+/* Active Sidebar */
+ .sidenav {height:100%; width:19%; position:fixed; z-index:0; top:0; left:0; background-color:#363636; overflow-x:hidden; padding-top:20px;  border-right:0.1vw solid #505050;}
+
+ .sidenav a {padding:0.1vh 8vh 0.2vh -1vh; text-decoration:none; font-size:3vh; color:white; display:block; font-family:Barlow; font-style:bold; margin-top:0; opacity:0.5; margin-left:0.5vw;}
+
+ .sidenav a:hover {opacity:1;}
+
+ .sidenav a.active {opacity:1;}
+
+
+
+/* Hidden Sidebar */
+ .sidenavhidden{width:0;display:none;}
+
+
+
+/* zoom hover effect */
+ #zoom{opacity:0.5;}
+ #zoom:hover{opacity:1;}
+ 
+
+/* splash screen stuff */
+ .splash {position:fixed; top:0; left:0; width:100%; height:100vh; background:#292929; z-index:200; color:white; text-align:center; line-height:90vh;}
+ 
+ .splash.display-none {position:fixed; opacity:0; top:0; left:0; width:100%; height:100vh; background:#292929; z-index:-10; color:white; text-align:center; line-height:90vh; transition:all 0.5s;}
+
+ @keyframes fadein{ to {opacity:1;}}
+
+ .fadeIn{opacity:0; animation:fadein 1s ease-in forwards;}
+
+
+
+/* dropdown  */
+
+ 
+ .countrytext {height:2vw; margin:0.1vw; margin-left:1vw; margin-bottom:0.01vw; opacity:0.6}
+ 
+ .dropdown {position:relative; display:inline-block; margin-top:1vw;}
+
+ .dropdown-content {display:none;position:fixed;background-color:#505050; width:18.9vw; z-index: 1; border-radius:1vw; margin-top:0.25vw;}
+
+ .dropdown-content a {padding:0.3vw 1.6vw; text-decoration:none; display:block; font-size:2vw; opacity:0.6;}
+ 
+ .dropdown-content a:hover {background-color: #292929;border-radius:1vw;opacity:1;}
+
+ .dropdown:hover .dropdown-content {display:block;}
+
+ .dropbtn:hover{opacity:0.6;}
+ 
+ #countrybtn{height:2.1vw;}
+ 
+ 
+/* NEWS API STYLING */
+ #date {color:#fafafa;font-size:5vw;font-style:bold;margin-top:2vw;font-family:Noto Sans;margin-left:5%;}
+ 
+ #weatherbtn {float:right;height:5vw;margin-top:3vw;margin-right:4.5vw;}
+ 
+ #api {width:81vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:40%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#505050; box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2); z-index:1; margin-top:8vw; height:35%; width:20%;margin-right:260%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:35vh;width:25vw;}
+ 
+ .unit{border-style: solid; border-color:#363636; border-width: 0.1vw;min-height:25%;border-radius: 2vw;background-color:#363636; width:95%; margin-top:2vw;}
+ 
+ .wrap {white-space: normal !important;}
+ 
+ #api-image {width:45%;border-radius: 1.5vw;margin-top:1vw;margin-left:1vw;margin-bottom:1vw;}
+ #api-br {display:none;}
+ #api-articlelink-mobile {display:none;}
+ #api-text {width:50%; float:right;}
+ #api-title {color:#fafafa;font-size:2.2vw;font-family:Nunito;}
+ #api-description {font-size:1.65vw;font-style:bold;color:#fafafa;font-family:Nunito;}
+ #api-articlelink {margin-left:3vw;margin-top:-10vw;z-index:1;margin-right:1.7vw;margin-top:1.5vw;float:right;height:20px;}
+ #api-moderator {border: 0.01vh solid #363636;margin-top:-2vh;width:90%;}
+ #api-newsseperator {display:none;}
+ #api-endoffeed {margin-top:30vw;height:20vw;}
+ 
+ 
+/*Tablet Version*/
+ @media all and (max-width:1200px) and (min-width:651px) and (orientation: landscape) {
+  #desktop-version {display:none;}
+  #tablet-version {display:block;}
+  #mobile-version {display:none;}
+  
+  
+  /* zoom hover effect */
+  #zoom{opacity:0.5;}
+  #zoom:hover{opacity:0.5;}
+ 
+  /*top nav buttons*/
+ .logo {float:left;margin:0;height:4vw;}
+ .info {float:right;margin:0.1%;height:3.05vw;margin-top:0.5%;margin-right:0.2vw;}
+ .mode {float:right;margin:0.2%;height:3.4vw; margin-top:0.35%;}
+ .activism {float:right;margin:0.3%;height:3.3vw;margin-top:0.35%;margin-right:0.8vw;}
+ .news {float:right;margin:-0.3vw;height:4.25vw;}
+ 
+  /* API Stuff */
+  
+ #date {color:#fafafa;font-size:5vw;font-style:bold;margin-top:2vw;font-family:Noto Sans;margin-left:5%;}
+  
+ #weatherbtn {float:right;height:5vw;margin-top:3vw;margin-right:4.5vw;}
+  
+ #api {width:100vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:40%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#505050; box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2); z-index:1; margin-top:8vw; height:35%; width:25%;margin-right:260%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:40vh;width:25vw;}
+ 
+ .unit{border-style: solid; border-color:#363636; border-width: 0.1vw;min-height:25%;border-radius: 2vw;background-color:#363636; width:95%;}
+ 
+ .wrap {white-space: normal !important;}
+ 
+ #api-image {width:48%;border-radius: 1.5vw;margin-top:1vw;margin-left:1vw;margin-bottom:1vw;}
+ #api-br {display:none;}
+ #api-articlelink-mobile {display:none;}
+ #api-text {width:50%; float:right;}
+ #api-title {color:#fafafa;font-size:2.3vw;font-family:Nunito;}
+ #api-description {font-size:1.75vw;font-style:bold;color:#fafafa;font-family:Nunito;}
+ #api-articlelink {margin-left:3vw;margin-top:-10vw;z-index:1;margin-right:1.7vw;margin-top:1.5vw;float:right;height:20px;}
+ #api-moderator {border: 0.01vh solid #363636;margin-top:-2vh;width:90%;}
+ #api-newsseperator {display:none;}
+ #api-endoffeed {margin-top:30vw;height:20vw;}
+  
+  
+  .sidenavhidden {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #363636;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 0vw;
+  display:block;
+}
+
+.sidenavhidden a {
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenavhiddenlink a{opacity:0.5;}
+.sidenavhiddenlink a.active {opacity:1;}
+
+#coronavirus {height:4.7vw;}
+#headlines {height:4.4vw;}
+#business {height:4.7vw}
+#health {height:4.8vw}
+#sports {height:4.7vw}
+#technology {height:4.7vw}
+#science {height:4.8vw}
+#entertainment {height:4.7vw}
+
+/* dropdown  */
+.dropdown-tablet {
+  position: relative;
+  display: inline-block;
+  margin-top:1vh;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content-tablet {
+  display: none;
+  position: absolute;
+  background-color: #505050;
+  width:32.3vw;
+  z-index: 1;
+  border-radius:2vw;
+  margin-top:10vw;
+  margin-left:-21.3vw;
+}
+
+/* Links inside the dropdown */
+.dropdown-content-tablet a {
+  color: white;
+  padding: 0.2vw 0.5vw;
+  text-decoration: none;
+  display: block;
+  opacity:0.7;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-tablet:hover .dropdown-content-tablet {display: block;}
+
+.dropbtn-tablet:hover{opacity:0.6;}
+
+.countrytext-tablet {margin:0.1vw;margin-left:-21vw;margin-bottom:0.01vw;opacity:0.5;margin-top:7vw;float:left;height:3vw;}
+ 
+ #countrybtn-tablet {height:2.5vw;}
+ }
+ 
+ 
+ /*Mobile Version*/
+  @media all and (orientation: portrait){
+   #desktop-version {display:none;}
+   #tablet-version {display:none;}
+   #mobile-version {display:block;}
+   
+   /*topnav bar*/
+   .topnavbar {background-color:#363636;position:fixed;width:100%;}
+   
+   #mobile-logo {height:16vw;margin:-2vw;}
+   
+   #category-options {height:10vw;margin:1vw;float:right;}
+   #country-options {height:10vw;margin:1vw;float:right;}
+
+ /* API Stuff */
+ 
+ #date {color:#fafafa;font-size:8vw;font-style:bold;margin-top:2.5vw;font-family:Noto Sans;margin-left:4.2vw;}
+ 
+ #weatherbtn {float:right;height:8vw;margin-top:3.5vw;margin-right:4.5vw;}
+   
+ #api {width:100vw;height:100vh;z-index:1;float:right;}
+ 
+ .meat{width:40%; float: right; margin-left:-10px;}
+ 
+ .dropdownapi {position:relative; display:inline-block;}
+ 
+ .dropdown-contentapi {display:none; position:absolute; right:0; background-color:#505050; box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2); z-index:1; margin-top:11vw; height:35%; width:25%;margin-right:350%;}
+
+ .dropdownapi:hover .dropdown-contentapi {display: block;}
+ 
+ .weather {height:60vh;width:50vw;}
+ 
+ .unit{border-style: solid; border-color:#363636; border-width: 0.1vw;min-height:25%;border-radius: 2vw;background-color:#363636; width:95vw;margin-left:-3vw;}
+ 
+ .wrap {white-space: normal !important;}
+ 
+ #api-image {width:95vw;border-top-right-radius:2vw;border-top-left-radius:2vw;border-bottom: 1.5vw solid #505050;margin:0;}
+ #api-br {display:block;}
+ #api-text {width:95%; float:right;}
+ #api-title {color:#fafafa;font-size:6.5vw;font-family:Nunito;}
+ #api-articlelink-mobile {float:left;height:5vw;display:block;}
+ #api-description {display:none;}
+ #api-articlelink {display:none;}
+ #api-moderator {border: 0.01vh solid #363636;margin-top:0vh;width:90%;}
+ #api-endoffeed {margin-top:30vw;height:34vw;margin-bottom:10vw;}
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #363636;
+   color: white;
+   text-align: center;
+   border-top:0.01vw solid #505050;
+}
+
+#footer-news {height:12vw;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-activism {height:12vw;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-coronavirus {height:12vw;margin-right:5.5vw;margin-left:5.5vw;}
+#footer-info {height:12vw;margin-right:5.5vw;margin-left:5.5vw;}
+
+
+/*Side Nav Menu*/
+.mobile-sidenav-options {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 5; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #363636; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.mobile-sidenav-options a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+  text-align:center;
+}
+
+
+/* Position and style the close button (top right corner) */
+.mobile-sidenav-options .close-sidenav {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#category-icons-headlines {height:9vw;}
+#category-icons-business {height:10.5vw;}
+#category-icons-health {height:7vw;}
+#category-icons-sports {height:10vw;}
+#category-icons-technology {height:10.5vw;}
+#category-icons-science {height:10.5vw;}
+#category-icons-entertainment {height:9.5vw;}
+
+#country-icons-australia-headlines {height:5.5vw;}
+#country-icons-canada-headlines {height:5.5vw;}
+#country-icons-china-headlines {height:5.5vw;}
+#country-icons-france-headlines {height:5.5vw;}
+#country-icons-germany-headlines {height:5.5vw;}
+#country-icons-india-headlines {height:5.5vw;}
+#country-icons-japan-headlines {height:5.5vw;}
+#country-icons-russia-headlines {height:5.5vw;}
+#country-icons-sk-headlines {height:5.5vw;}
+#country-icons-us-headlines {height:5.5vw;}
+#country-icons-uk-headlines {height:5.5vw;}
+  }
+</style>
+</head>
+
+<body id="body" style="background-color:#292929;padding:0;margin:0;overflow-x:hidden;">
+
+<div data-role="page" id="us-headlines" style="background-color:#292929;">
+  
+  <!--Splash Screen-->
+ <div class="splash" onload="preload()">
+  <img src="splashscreen-dark.png" style="height:20vh;margin-top:40vh;">
+  <script>
+var preload = (function() {
+    var executed = false;
+    return function() {
+        if (!executed) {
+            executed = true;
+            
+const splash = document.querySelector('.splash');
+
+document.addEventListener('DOMContentLoaded', (e)=>{
+	setTimeout(()=>{
+		splash.classList.add('display-none');
+	}, 1350);
+})
+const header = document.querySelector('.header');
+
+window.onscroll=function(){
+	var top=window.scrollY;
+	console.log(top);
+	if (top >= 50){
+		header.classList.add('active')
+	}
+	else{
+		header.classList.remove('active');
+	}
+}
+        }
+    };
+})();
+
+preload(); // "do something" happens
+preload(); // nothing happens
+</script>
+</div>
+
+  <!--Page Content-->
+ <div class="zoomer" style="animation-delay:1.2s;">
+    
+    <!--Desktop Version-->
+    <div id="desktop-version">
+   <!--Header Navigation Bar-->
+   <div style="background-color:#363636;position:fixed;width:100%;border-bottom:0.1vw solid #505050;">
+    <a href="us-headlines-headlines"><img src="switchtolightmode.png" title=" Switch to Light-Mode" id="zoom" class="mode"></a>
+    <a href="#info"><img src="icon-info-dark.png" title="Information" id="zoom" class="info"></a>
+    <a href="#activism"><img src="icon-activism-dark.png" title="Trookio Education" id="zoom" class="activism"></a>
+    <img src="icon-newsactive-dark.png" title="News Feed" class="news">
+  </div>
+  
+   <!--Side Bar (Active)-->
+   <div class="sidenav" style="height:100vh;">
+    <img src="logo-dark.png" style="width:105%;margin-top:-15%;margin-left:-1vw;"><br><br>
+    
+  <!--Country Dropdown (Active)-->
+  <div class="dropdown">
+  <div class="dropbtn"><img src="sidenav-dropdown-country-us-dark.png" class="countrytext"></div>
+
+    <div class="dropdown-content">
+     <a href="#australia-headlines"><img src="sidenav-country-australia-dark.png" id="countrybtn"></a>
+     <a href="#canada-headlines"><img src="sidenav-country-canada-dark.png" id="countrybtn"></a>
+     <a href="#china-headlines"><img src="sidenav-country-china-dark.png" id="countrybtn"></a>
+     <a href="#france-headlines"><img src="sidenav-country-france-dark.png" id="countrybtn"></a>
+     <a href="#germany-headlines"><img src="sidenav-country-germany-dark.png" id="countrybtn"></a>
+     <a href="#india-headlines"><img src="sidenav-country-india-dark.png" id="countrybtn"></a>
+     <a href="#japan-headlines"><img src="sidenav-country-japan-dark.png" id="countrybtn"></a>
+     <a href="#russia-headlines"><img src="sidenav-country-russian-dark.png" id="countrybtn"></a>
+     <a href="#sk-headlines"><img src="sidenav-country-sk-dark.png" id="countrybtn"></a>
+     <a href="#us-headlines" style="opacity:1;"><img src="sidenav-country-us-dark.png" id="countrybtn"></a>
+     <a href="#uk-headlines"><img src="sidenav-country-uk-dark.png" id="countrybtn"></a>
+    </div>
+  </div>
+  
+   <hr style="color:#b8b8b8;width:90%;opacity:0.5;">
+   <a href="#coronavirus"><img src="sidenav-category-coronavirus-dark.png" style="height:3vw;"></a>
+   <hr style="color:#b8b8b8;width:90%;margin-top:0vh;opacity:0.5;">
+   <a href="#us-headlines" class="active"><img src="sidenav-category-headlines-dark.png" style="height:2.4vw;"></a>
+   <a href="#us-business"><img src="sidenav-category-business-dark.png" style="height:2.9vw;"></a>
+   <a href="#us-health"><img src="sidenav-category-health-dark.png" style="height:2.05vw;"></a>
+   <a href="#us-sports"><img src="sidenav-category-sports-dark.png" style="height:2.8vw;"></a>
+   <a href="#us-technology"><img src="sidenav-category-technology-dark.png" style="height:2.8vw;"></a>
+   <a href="#us-science"><img src="sidenav-category-science-dark.png" style="height:2.8vw;margin-top:-0.5vw;"></a>
+   <a href="#us-entertainment"><img src="sidenav-category-entertainment-dark.png" style="height:2.7vw;margin-top:-0.3vw;"></a>
+</div>
+
+<embed src="#us-headlines-api" id="api">
+</div>
+
+    <!--Tablet Version-->
+    <div id="tablet-version">
+       
+      <!--Hidden Sidebar-->
+      <div id="hiddensidebar-usheadlines" class="sidenavhidden">
+       <img src="logo+menu-dark.png" class="logo" onclick="closeNav()">
+       
+       <div class="dropdown-tablet">
+        <div class="dropbtn-tablet"><img src="sidenav-dropdown-country-us-dark.png" class="countrytext-tablet"></div>
+
+        <div class="dropdown-content-tablet">
+         <a href="#australia-headlines" onclick="closeNav()"><img src="sidenav-country-australia-dark.png" id="countrybtn-tablet"></a>
+         <a href="#canada-headlines" onclick="closeNav()"><img src="sidenav-country-canada-dark.png" id="countrybtn-tablet"></a>
+         <a href="#china-headlines" onclick="closeNav()"><img src="sidenav-country-china-dark.png" id="countrybtn-tablet"></a>
+         <a href="#france-headlines" onclick="closeNav()"><img src="sidenav-country-france-dark.png" id="countrybtn-tablet"></a>
+         <a href="#germany-headlines" onclick="closeNav()"><img src="sidenav-country-germany-dark.png" id="countrybtn-tablet"></a>
+         <a href="#india-headlines" onclick="closeNav()"><img src="sidenav-country-india-dark.png" id="countrybtn-tablet"></a>
+         <a href="#japan-headlines" onclick="closeNav()"><img src="sidenav-country-japan-dark.png" id="countrybtn-tablet"></a>
+         <a href="#russia-headlines" onclick="closeNav()"><img src="sidenav-country-russian-dark.png" id="countrybtn-tablet"></a>
+         <a href="#sk-headlines" onclick="closeNav()"><img src="sidenav-country-sk-dark.png" id="countrybtn-tablet"></a>
+         <a style="opacity:1;" onclick="closeNav()"><img src="sidenav-country-us-dark.png" id="countrybtn-tablet"></a>
+         <a href="#uk-headlines" onclick="closeNav()"><img src="sidenav-country-uk-dark.png" id="countrybtn-tablet"></a>
+        </div>
+       </div>
+       
+       <div class="sidenavhiddenlink">
+        <hr style="color:#b8b8b8;width:95%;opacity:0.5;">
+        <a href="#coronavirus"><img src="sidenav-category-coronavirus-dark.png" style="height:4.3vw;"></a>
+       <hr style="color:#b8b8b8;width:95%;margin-top:0vh;opacity:0.5;">
+       <a href="#us-headlines" class="active"><img src="sidenav-category-headlines-dark.png" style="height:3.4vw;"></a>
+       <a href="#us-business"><img src="sidenav-category-business-dark.png" style="height:3.9vw;"></a>
+       <a href="#us-health"><img src="sidenav-category-health-dark.png" style="height:3.05vw;"></a>
+       <a href="#us-sports"><img src="sidenav-category-sports-dark.png" style="height:3.8vw;"></a>
+       <a href="#us-technology"><img src="sidenav-category-technology-dark.png" style="height:3.8vw;"></a>
+       <a href="#us-science"><img src="sidenav-category-science-dark.png" style="height:3.8vw;margin-top:-0.5vw;"></a>
+       <a href="#us-entertainment"><img src="sidenav-category-entertainment-dark.png" style="height:3.7vw;margin-top:-0.3vw;"></a>
+      </div>
+      
+      <!--Side Nav Bar script-->
+      <script>
+        function openNav() {
+         document.getElementById("hiddensidebar-usheadlines").style.width = "33vw";
+         document.getElementById("mainpage-usheadlines").style.opacity = "0.3";
+          }
+
+        function closeNav() {
+         document.getElementById("hiddensidebar-usheadlines").style.width = "0";
+         document.getElementById("mainpage-usheadlines").style.opacity = "1";
+         }
+      </script>
+      </div>
+       
+      <div id="mainpage-usheadlines">
+       <!--Topnav Bar-->
+       <div style="background-color:#363636;position:fixed;width:100%;border-bottom:0.1vw solid #505050;">
+        <img src="logo+menu-dark.png" class="logo" onclick="openNav()">
+        <a href="#us-headlines-light"><img src="switchtolightmode.png" title=" Switch to Light-Mode" id="zoom" class="mode"></a>
+        <a href="#info"><img src="icon-info-dark.png" title="Information" id="zoom" class="info"></a>
+        <a href="#activism"><img src="icon-activism-dark.png" title="Trookio Education" id="zoom" class="activism"></a>
+        <a href="#us-headlines"><img src="icon-newsactive-dark.png" title="News Feed" class="news"></a>
+       </div>
+       
+       <!--API Embed-->
+       <embed src="#us-headlines-api" id="api">
+      </div>
+    </div>
+    
+    <!--Mobile Version-->
+    <div id="mobile-version">
+      
+      <!--Top Nav Bar-->
+      <div class="topnavbar" style="border-bottom:0.01vw solid #505050;">
+        <!--Top Bar Icons-->
+        <img src="logo-dark.png" id="mobile-logo">
+        <img src="mobile-topbar-country-us-dark.png" id="country-options" onclick="opencountryusheadlines()">
+        <img src="mobile-topbar-category-headlines-dark.png" id="category-options" onclick="opencategoryusheadlines()">
+        
+        <!--Category Options-->
+        <div id="sidenav-category-usheadlines" class="mobile-sidenav-options">
+          <a href="javascript:void(0)" class="close-sidenav" onclick="closecategoryusheadlines()" style="color:#fafafa;">&times;</a>
+          <a onclick="closecategoryusheadlines()"><img src="sidenav-category-headlines-dark.png" id="category-icons-headlines" style="opacity:1;"></a>
+          <a href="#us-business" onclick="closecategoryusheadlines()"><img src="sidenav-category-business-dark.png" id="category-icons-business" style="opacity:0.6;"></a>
+          <a href="#us-health" onclick="closecategoryusheadlines()"><img src="sidenav-category-health-dark.png" id="category-icons-health" style="opacity:0.6;"></a>
+          <a href="#us-sports" onclick="closecategoryusheadlines()"><img src="sidenav-category-sports-dark.png" id="category-icons-sports" style="opacity:0.6;"></a>
+          <a href="#us-technology" onclick="closecategoryusheadlines()"><img src="sidenav-category-technology-dark.png" id="category-icons-technology" style="opacity:0.6;"></a>
+          <a href="#us-science" onclick="closecategoryusheadlines()"><img src="sidenav-category-science-dark.png" id="category-icons-science" style="opacity:0.6;"></a>
+          <a href="#us-entertainment" onclick="closecategoryusheadlines()"><img src="sidenav-category-entertainment-dark.png" id="category-icons-entertainment" style="opacity:0.6;"></a>
+          
+          <script>
+            /* Set the width of the side navigation to 250px */
+            function opencategoryusheadlines() {
+            document.getElementById("sidenav-category-usheadlines").style.width = "100vw";
+             }
+
+            /* Set the width of the side navigation to 0 */
+            function closecategoryusheadlines() {
+            document.getElementById("sidenav-category-usheadlines").style.width = "0";
+            }
+          </script>
+        </div>
+        
+        <!--Coutry Options-->
+        <div id="sidenav-country-usheadlines" class="mobile-sidenav-options">
+          <a href="javascript:void(0)" class="close-sidenav" onclick="closecountryusheadlines()" style="color:#fafafa;">&times;</a>
+          <a href="australia-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-australia-dark.png" id="country-icons-australia-headlines" style="opacity:0.6;"></a>
+          <a href="#canada-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-canada-dark.png" id="country-icons-canada-headlines" style="opacity:0.6;"></a>
+          <a href="#china-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-china-dark.png" id="country-icons-china-headlines" style="opacity:0.6;"></a>
+          <a href="#france-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-france-dark.png" id="country-icons-france-headlines" style="opacity:0.6;"></a>
+          <a href="#germany-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-germany-dark.png" id="country-icons-germany-headlines" style="opacity:0.6;"></a>
+          <a href="#india-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-india-dark.png" id="country-icons-india-headlines" style="opacity:0.6;"></a>
+          <a href="#japan-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-japan-dark.png" id="country-icons-japan-headlines" style="opacity:0.6;"></a>
+          <a href="#russia-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-russian-dark.png" id="country-icons-russia-headlines" style="opacity:0.6;"></a>
+          <a href="#sk-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-sk-dark.png" id="country-icons-sk-headlines" style="opacity:0.6;"></a>
+          <a onclick="closecountryusheadlines()"><img src="sidenav-country-us-dark.png" id="country-icons-us-headlines" style="opacity:1;"></a>
+          <a href="#uk-headlines" onclick="closecountryusheadlines()"><img src="sidenav-country-uk-dark.png" id="country-icons-uk-headlines" style="opacity:0.6;"></a>
+          
+          <script>
+            /* Set the width of the side navigation to 250px */
+            function opencountryusheadlines() {
+            document.getElementById("sidenav-country-usheadlines").style.width = "100vw";
+             }
+
+            /* Set the width of the side navigation to 0 */
+            function closecountryusheadlines() {
+            document.getElementById("sidenav-country-usheadlines").style.width = "0";
+            }
+          </script>
+        </div>
+      </div>
+      
+      <div class="footer">
+        <img src="footer-news-dark.png" id="footer-news" style="opacity:1;">
+        <a href="#activism"><img src="footer-activism-dark.png" id="footer-activism" style="opacity:0.5;"></a>
+        <a href="#coronavirus"><img src="footer-coronavirus-dark.png" id="footer-coronavirus" style="opacity:0.5;"></a>
+        <a href="#info"><img src="footer-info-dark.png" id="footer-info" style="opacity:0.5;"></a>
+      </div>
+      
+      <!--API Embed-->
+      <embed src="#us-headlines-api" id="api">
+    </div>
+    
+ </div>
+
+</div>
+
+
+
+<div data-role="page" id="us-headlines-api" style="background-color:#292929;">
+<div style="background-color:#292929;">
+ <br><br><br>
+ <div class="dropdownapi" style="float:right;">
+  <img src="weatherbtn-dark.png" title="Weather" class="dropdownbtnapi" id="weatherbtn">
+  <div class="dropdown-contentapi">
+   <iframe src="https://cdnres.willyweather.com/widget/loadView.html?id=126801" class="weather" style="border:none;">
+     <div id="loader">
+     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: rgb(80, 80, 80); display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+<circle cx="84" cy="50" r="2.89667" fill="#292929">
+    <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+    <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#292929;#292929;#292929;#292929;#292929" begin="0s"></animate>
+</circle><circle cx="16" cy="50" r="7.10333" fill="#292929">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+</circle><circle cx="40.1513" cy="50" r="10" fill="#292929">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+</circle><circle cx="74.1513" cy="50" r="10" fill="#292929">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+</circle><circle cx="16" cy="50" r="0" fill="#292929">
+  <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+  <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+</circle>
+</svg>
+</div>
+   </iframe>
+  </div>
+ </div>
+ 
+ <h1 id="date"></h1>
+ <ul id="storyList" data-role="listview" style="background-color:#292929;margin-left:5%;"><br><br>
+ 
+ <div id="loader">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#292929;display:block;" width="211px" height="211px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+<circle cx="18" cy="72.0947" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"></animate>
+</circle><circle cx="27" cy="58.3231" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.11061946902654866s" repeatCount="indefinite"></animate>
+</circle><circle cx="36" cy="36.2273" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.22123893805309733s" repeatCount="indefinite"></animate>
+</circle><circle cx="45" cy="26.5627" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.331858407079646s" repeatCount="indefinite"></animate>
+</circle><circle cx="54" cy="27.9053" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.44247787610619466s" repeatCount="indefinite"></animate>
+</circle><circle cx="63" cy="41.677" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.5530973451327433s" repeatCount="indefinite"></animate>
+</circle><circle cx="72" cy="63.7728" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.663716814159292s" repeatCount="indefinite"></animate>
+</circle><circle cx="81" cy="73.4373" r="4" fill="#505050">
+  <animate attributeName="cy" values="26;74;26" times="0;0.5;1" dur="0.8849557522123893s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.7743362831858406s" repeatCount="indefinite"></animate>
+</circle>
+</svg>
+ </div>
+ </ul>
+ <div align=center>
+ <br>
+ <img src="endoffeed-dark.png" id="api-endoffeed"><br><br>
+</div>
+</div>
+<script>
+
+   let url = "https://yacdn.org/proxy/https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=3e2409c3962a4580ad0a927d9b5b095f";
+      let out = "";
+      let articles = [];
+      $.getJSON(url, function(data){
+        console.log(data);
+        articles = data.articles;
+        for(let x =0; x < articles.length; x++) {
+          displayStory(articles[x],x);
+          $("#storyList").html(out);
+          $("#storyList").listview("refresh");
+        
+        }
+      });
+
+      function displayStory(story,storyNum){
+        const number = storyNum;
+        const title = story.title;
+        const source = story.source.name;
+        const image = story.urlToImage;
+        const storyTime = story.publishedAt;
+        const description = story.description;
+        
+        out +="<div class='unit'>";
+        out += "<li onclick='populateDetail(" + number + ")' class='wrap'>";
+        out += "<img id='api-image' align=center src ='" + image + "'/>";
+        out += "<br id='api-br'>";
+        out += "<div class='wrap' id='api-text'>";
+        out += "<h1 id='api-title'>" + title + "</h1>";
+        out += "<h6 id='api-description' class='wrap'>" + description + "</h6>";
+        out += "<div>"
+        out += "<a href= '" + story.url + "' target='_blank'><img src='openarticle-desktop-dark.png' title='View full article' id='api-articlelink'></a>";
+        out += "<a href= '" + story.url + "' target='_blank'><img src='openarticle-mobile-dark.png' id='api-articlelink-mobile'></a>";
+        out += "</div></div><hr id='api-moderator'></div>";
+        out += "</li>";
+        out += "<br>";
+      }
+
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var n = new Date();
+var y = n.getFullYear();
+var m = n.getMonth();
+var d = n.getDate();
+document.getElementById("date").innerHTML = months[m] + " " + d + ", " + y;
+
+</script>
+</div>
+
+</body>
